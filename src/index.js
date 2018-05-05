@@ -1,15 +1,9 @@
-if (module.hot) {
-    module.hot.accept();
-}
-
-if (process.env.NODE_ENV !== 'production') {
-    console.log('Looks like we are in development mode!');
-}
-
 import m from 'mithril';
-import r from '../packages/hobbit-navigator/src';
+import r from 'mithril-hobbit-navigator';
 
 import ColoredBlock from './views/components/ColoredBlock';
+
+import './styles/app.scss';
 
 r.createRouter({
     hashbanged: true,

@@ -8,7 +8,5 @@
 # misc
 .sass-cache
 .eslintcache
+.cache
 npm-debug.log*
-
-# mac
-.DS_Store
