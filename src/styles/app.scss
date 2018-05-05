@@ -1,0 +1,76 @@
+html, body, #root {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body, #root {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #333;
+  background-color: #FFFFFF;
+  overflow-x: hidden;
+}
+
+.index {
+  width: 350px;
+  text-align: center;
+  .red, .blue, .green {
+    width: 250px;
+    height: 250px;
+    text-align: center;
+    margin:auto;
+    
+    h2 {
+      color: white;
+    }
+    
+    .red, .blue, .green {
+      width: 150px;
+      height: 150px;
+      margin: auto;
+    }
+  }
+  
+  .red {
+    background-color: red;
+  }
+  
+  .blue {
+    background-color: blue;
+  }
+  
+  .green {
+    background-color: green;
+  }
+  
+  .links {
+    text-align: center;
+    
+    a {
+      margin-right: 5px;
+      text-decoration: underline;
+      cursor: pointer;
+      color: darkblue;
+      
+      &:hover {
+        color: black;
+      }
+    }
+  }
+}
+
+.fadein {
+  animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}

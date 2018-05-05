@@ -1,0 +1,14 @@
+# Compiled output
+es
+umd
+
+# Node modules
+node_modules
+
+# CommonJS root files
+/*.js
+/components
+/history
+
+# Rollup config
+!rollup.config.js
