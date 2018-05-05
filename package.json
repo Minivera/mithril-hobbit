@@ -2,6 +2,7 @@
   "name": "mithril-hobbit",
   "version": "0.0.1",
   "description": "Framework to bring modern tools to the Mithril ecosystem",
+  "repository": "Minivera/mithril-hobbit",
   "license": "ISC",
   "main": "index.js",
   "scripts": {
