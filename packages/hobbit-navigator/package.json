@@ -1,9 +1,9 @@
 {
   "name": "mithril-hobbit-navigator",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Component based routing using the HTML5 history API for Mithril",
   "repository": "Minivera/mithril-hobbit",
-  "license": "ISC",
+  "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
     "build": "node ./build/build.js",
@@ -25,8 +25,8 @@
     "es",
     "umd",
     "index.js",
-    "history",
-    "components"
+    "history.js",
+    "router.js"
   ],
   "keywords": [
     "mithril",

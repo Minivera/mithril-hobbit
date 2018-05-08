@@ -1,3 +1,3 @@
-import { r } from './components';
+import { r } from './router';
 
 export default r;

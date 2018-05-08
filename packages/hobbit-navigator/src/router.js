@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { History } from '../history';
+import { History } from './history';
 
 /**
  * @module router
@@ -211,6 +211,12 @@ r.createRouter = (configuration) => {
  * @methodOf module:router~r
  */
 r.getLocation = () => {
+    if (!manager)
+    {
+        console.error(`The router was not initialized using 'createRouter'
+            before trying to render a route.`);
+        return null;
+    }
     return manager.getLocation();
 };
 
@@ -237,6 +243,12 @@ r.getLocation = () => {
  * @see [navigate]{@link module:history~History.navigate}
  **/
 r.navigate = (route, params = {}, options = {}) => {
+    if (!manager)
+    {
+        console.error(`The router was not initialized using 'createRouter'
+            before trying to render a route.`);
+        return null;
+    }
     manager.navigate(route, Object.assign({}, {
         params,
     }, options));
