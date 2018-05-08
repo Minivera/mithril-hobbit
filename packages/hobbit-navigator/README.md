@@ -1,6 +1,6 @@
 # Mithril Hobbit Navigator
 
-Hobbit navigator is part of the [Hobbit framework]() for mithril. This package contains a componenent based routing system heavily inspired by [React-router](https://github.com/ReactTraining/react-router).
+Hobbit navigator is part of the [Hobbit framework](https://github.com/Minivera/mithril-hobbit) for mithril. This package contains a componenent based routing system heavily inspired by [React-router](https://github.com/ReactTraining/react-router).
 
 The router component is easy to use and extremly light - weighing less than 2KB - bringing the whole mitrhil package to just about 11 KB.
 
@@ -12,7 +12,7 @@ To install Hobbit navigator, either install the hobbit framework or this package
 
 `npm install --save mithril-hobbit-navigator`
 
-Hobbit navigator is also available as a [UMD module]() in a minified or unminified format.
+Hobbit navigator is also available as a [UMD module](https://github.com/Minivera/mithril-hobbit/tree/master/packages/hobbit-navigator/umd) in a minified or unminified format.
 
 ## How to use
 
