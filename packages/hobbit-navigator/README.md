@@ -1,8 +1,10 @@
 # Mithril Hobbit Navigator
 
+[![NPM Version](https://img.shields.io/npm/v/mithril-hobbit-navigator.svg)](https://www.npmjs.com/package/mithril-hobbit-navigator) [![NPM License](https://img.shields.io/npm/l/mithril-hobbit-navigator.svg)](https://www.npmjs.com/package/mithril-hobbit-navigator) [![NPM Downloads](https://img.shields.io/npm/dm/mithril-hobbit-navigator.svg)](https://www.npmjs.com/package/mithril-hobbit-navigator)
+
 Hobbit navigator is part of the [Hobbit framework](https://github.com/Minivera/mithril-hobbit) for mithril. This package contains a componenent based routing system heavily inspired by [React-router](https://github.com/ReactTraining/react-router).
 
-The router component is easy to use and extremly light - weighing less than 2KB - bringing the whole mitrhil package to just about 11 KB.
+The router component is easy to use and extremly light - weighing less than 2KB - bringing the whole mithril package to just about 11 KB.
 
 It does not support any JSX structure (Yet).
 
@@ -16,7 +18,7 @@ Hobbit navigator is also available as a [UMD module](https://github.com/Minivera
 
 ## How to use
 
-Hobbit navigator is componenent based and thus can be used at any point in the structure. This greatly simplifies your code and allows for varied rendering depending on the current URL.
+Hobbit navigator is component based and thus can be used at any point in the structure. This greatly simplifies the code and allows for varied rendering depending on the current URL.
 
 ```javascript
 import m from 'mithril';
@@ -44,9 +46,9 @@ const index = {
 m.mount(document.body.querySelector('#root'), index);
 ```
 
-The `r` function creates a router where the componenent or structure given will only render if the URL matches the route pattern. For exemple, the `h3` would only render if the URL is exactly `/index`. `r` can accept either a vnode created by `m` or a component.
+The `r` function creates a router where the component or vnode given will only render if the URL matches the route pattern. For exemple, the `h3` would only render if the URL is exactly `/index`. `r` can accept either a vnode created by `m` or a component.
 
-`r` also accepts an array of route/view pairs where only the first pair where the route matches the URL will render.
+`r` also accepts an array of route/view pairs where only the first pair whose route matches the URL will render.
 
 ```javascript
 r([
@@ -79,7 +81,7 @@ r.navigate('/:color', {color: 'red'});
 ```
 
 ### 404 Page
-A view that always render is no other route could render can be created by giving an empty route pattern. This is usefull for 404 error pages.
+A view that always render if no other route could render can be created by giving an empty route pattern. This is usefull for 404 error pages.
 
 ```javascript
 const 404 = ...;
