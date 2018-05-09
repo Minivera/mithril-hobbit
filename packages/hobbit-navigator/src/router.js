@@ -94,7 +94,7 @@ const routeComponent = {
  *    return true with loose activated.</li>
  *   <li><b>caseSensitive</b>: Will match the two routes with case sensivity.
  *   </li>
- *   <li><b>strict</b>: Will enforce an ending slach for all routes pattern.
+ *   <li><b>strict</b>: Will enforce an ending slash for all routes pattern.
  *   </li>
  *  </ul>
  * </p>
