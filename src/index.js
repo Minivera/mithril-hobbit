@@ -1,6 +1,8 @@
 import m from 'mithril';
 import r from 'mithril-hobbit-navigator';
 
+import { Store, subscribe } from '../packages/hobbit-archivist/src';
+
 import ColoredBlock from './views/components/ColoredBlock';
 
 import './styles/app.scss';
@@ -8,6 +10,33 @@ import './styles/app.scss';
 r.createRouter({
     hashbanged: true,
 });
+
+const stateStore = Store.createStore({
+    time: startTime(),
+});
+
+function checkTime(i) {
+    if (i < 10)
+    {
+        i = '0' + i;
+    }
+    return i;
+}
+
+function startTime() {
+    const today = new Date();
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    let seconds = today.getSeconds();
+    minutes = checkTime(minutes);
+    seconds = checkTime(seconds);
+    setTimeout(() => {
+        stateStore.set('time', {
+            time: startTime(),
+        });
+    }, 500);
+    return  `${hours}:${minutes}:${seconds}`;
+}
 
 const index = {
     onClickIndex: function() {
@@ -25,9 +54,17 @@ const index = {
     onClick404: function() {
         r.navigate('/404');
     },
-    view: function() {
+    onstatechanged: function(state) {
+        m.redraw();
+    },
+    view: function(vnode) {
+        setTimeout(() => {
+            //debugger;
+            vnode.attrs.unsubscribe();
+        }, 5000);
         return m('div.index', [
             m('h1', 'Colored routing display'),
+            m('span', `Time: ${vnode.attrs.state.time}`),
             r([
                 [ '/block/:color', ColoredBlock ],
                 [ '/index', m('h3', 'Index') ],
@@ -44,4 +81,4 @@ const index = {
     },
 };
 
-m.mount(document.body.querySelector('#root'), index);
+m.mount(document.body.querySelector('#root'), subscribe(index, 'time', stateStore));
