@@ -1,7 +1,7 @@
 import m from 'mithril';
 import r from 'mithril-hobbit-navigator';
 
-import { Store, subscribe } from '../packages/hobbit-archivist/src';
+import { Store, subscribe } from '../packages/hobbit-archivist';
 
 import ColoredBlock from './views/components/ColoredBlock';
 
@@ -54,7 +54,7 @@ const index = {
     onClick404: function() {
         r.navigate('/404');
     },
-    onstatechanged: function(state) {
+    onstatechanged: function(state, newState) {
         m.redraw();
     },
     view: function(vnode) {
@@ -81,4 +81,4 @@ const index = {
     },
 };
 
-m.mount(document.body.querySelector('#root'), subscribe(index, 'time', stateStore));
+m.mount(document.body.querySelector('#root'), subscribe(index, 'time'));

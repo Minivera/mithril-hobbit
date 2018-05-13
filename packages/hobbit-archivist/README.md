@@ -4,9 +4,7 @@
 
 Hobbit archivist is part of the [Hobbit framework](https://github.com/Minivera/mithril-hobbit) for mithril. It offers a complete system to store and observe an application's state from a central location. This package is heavily inspired from system like [Redux](https://redux.js.org/) and [Cerebral](https://cerebraljs.com/).
 
-The state management system is easy to use and extremely light - weighing less than XKB - bringing the whole mithril package to just about Y KB.
-
-It does not support any JSX structure (Yet).
+The state management system is easy to use and extremely light - weighing less than 1KB - bringing the whole mithril package to just about 9 KB.
 
 ## How to install
 
