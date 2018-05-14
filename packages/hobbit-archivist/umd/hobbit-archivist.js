@@ -360,15 +360,14 @@
    */
   var subscribe = function subscribe(component, path) {
       if (component.view == null && typeof component !== 'function') {
-          throw new Error('subscribe(component, path, store) expects a component, \n            not a vnode.');
+          throw new Error('subscribe(component, path) expects a component, \n            not a vnode.');
       }
-      var state = Store.find(path);
 
       //Create the subscriber object that will be given to the store
       var subscriber = {
           notify: function notify(notifiedPath) {
               if (path.includes(notifiedPath) && component.onstatechanged) {
-                  component.onstatechanged(state, Store.find(notifiedPath));
+                  component.onstatechanged(Store.find(notifiedPath));
               }
           }
       };
@@ -380,7 +379,7 @@
       return {
           view: function view() {
               return m(component, {
-                  state: state,
+                  state: Store.find(path),
                   unsubscribe: function unsubscribe() {
                       Store.unsubscribe(key);
                   }
@@ -414,12 +413,12 @@
    */
   var bind = function bind(component, path) {
       if (component.view == null && typeof component !== 'function') {
-          throw new Error('bind(component, path, store) expects a component, \n            not a vnode.');
+          throw new Error('bind(component, path) expects a component, \n            not a vnode.');
       }
 
-      var state = Store.find(path);
       return {
           view: function view() {
+              var state = Store.find(path);
               return m(component, { state: state });
           }
       };

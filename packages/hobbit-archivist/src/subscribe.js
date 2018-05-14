@@ -34,17 +34,16 @@ import { Store } from './store';
 export const subscribe = (component, path) => {
     if (component.view == null && typeof component !== 'function')
     {
-        throw new Error(`subscribe(component, path, store) expects a component, 
+        throw new Error(`subscribe(component, path) expects a component, 
             not a vnode.`);
     }
-    const state = Store.find(path);
     
     //Create the subscriber object that will be given to the store
     const subscriber = {
         notify(notifiedPath) {
             if (path.includes(notifiedPath) && component.onstatechanged)
             {
-                component.onstatechanged(state, Store.find(notifiedPath));
+                component.onstatechanged(Store.find(notifiedPath));
             }
         },
     };
@@ -56,7 +55,7 @@ export const subscribe = (component, path) => {
     return {
         view: function() {
             return m(component, {
-                state, 
+                state : Store.find(path), 
                 unsubscribe: () => {Store.unsubscribe(key)},
             });
         },

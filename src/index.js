@@ -1,7 +1,8 @@
 import m from 'mithril';
 import r from 'mithril-hobbit-navigator';
+import loki from 'lokijs';
 
-import { Store, subscribe } from '../packages/hobbit-archivist';
+import { Store, subscribe } from 'mithril-hobbit-archivist';
 
 import ColoredBlock from './views/components/ColoredBlock';
 
@@ -11,9 +12,48 @@ r.createRouter({
     hashbanged: true,
 });
 
+class connector {
+    constructor(initial) {
+        //TODO: Create initial state
+        this.db = new loki();
+        this.data = this.db.addCollection('data');
+    }
+    
+    set(path, value) {
+        const existingRecord = this.data.findOne({path});
+        if (existingRecord) 
+        {
+            this.data.update(Object.assign({}, existingRecord, {
+                value,
+            }));
+        }
+        else
+        {
+            this.data.insert({path, value});
+        }
+    }
+    
+    remove(path) {
+        this.data.findAndRemove({path});
+    }
+    
+    find(path) {
+        const found = this.data.findOne({path});
+        return found ? found.value : undefined;
+    }
+    
+    clear() {
+        this.data.clear();
+    }
+    
+    all() {
+        return this.data.find({}).map((record) => record.value);
+    }
+}
+
 const stateStore = Store.createStore({
     time: startTime(),
-});
+});//, connector);
 
 function checkTime(i) {
     if (i < 10)
@@ -31,14 +71,16 @@ function startTime() {
     minutes = checkTime(minutes);
     seconds = checkTime(seconds);
     setTimeout(() => {
-        stateStore.set('time', {
-            time: startTime(),
-        });
+        stateStore.set('time', startTime());
     }, 500);
     return  `${hours}:${minutes}:${seconds}`;
 }
 
 const index = {
+    time: null,
+    oncreate: function(vnode) {
+        this.time = vnode.attrs.state;
+    },
     onClickIndex: function() {
         r.navigate('/index');
     },
@@ -54,8 +96,12 @@ const index = {
     onClick404: function() {
         r.navigate('/404');
     },
-    onstatechanged: function(state, newState) {
-        m.redraw();
+    onstatechanged: function(newState) {
+        if (this.time !== newState)
+        {
+            this.time = newState;
+            m.redraw(); //Redraws on state changed and different
+        }
     },
     view: function(vnode) {
         setTimeout(() => {
@@ -64,7 +110,7 @@ const index = {
         }, 5000);
         return m('div.index', [
             m('h1', 'Colored routing display'),
-            m('span', `Time: ${vnode.attrs.state.time}`),
+            m('span', `Time: ${vnode.attrs.state}`),
             r([
                 [ '/block/:color', ColoredBlock ],
                 [ '/index', m('h3', 'Index') ],

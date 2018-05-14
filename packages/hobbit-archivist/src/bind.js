@@ -27,13 +27,13 @@ import { Store } from './store';
 export const bind = (component, path) => {
     if (component.view == null && typeof component !== 'function')
     {
-        throw new Error(`bind(component, path, store) expects a component, 
+        throw new Error(`bind(component, path) expects a component, 
             not a vnode.`);
     }
     
-    const state = Store.find(path);
     return {
         view: function() {
+            const state = Store.find(path);
             return m(component, {state});
         },
     };
