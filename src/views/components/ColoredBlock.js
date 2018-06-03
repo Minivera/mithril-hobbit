@@ -23,9 +23,9 @@ const ColoredBlock = {
             m('h2', [
                 vnode.attrs.params.color,
             ]),
-            r('/block/:color/:subcolor', SubColoredBlock),
+            r('/block/:color/:subcolor', m(SubColoredBlock)),
         ]);
     },
 };
 
-export default ColoredBlock;
+export default r.withLocation('/block/:color', ColoredBlock);

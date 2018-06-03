@@ -1,6 +1,6 @@
 {
   "name": "mithril-hobbit-archivist",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Central state management and subscription for Mithril",
   "repository": "Minivera/mithril-hobbit",
   "license": "MIT",

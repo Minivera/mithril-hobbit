@@ -133,7 +133,7 @@ export class History {
             path: baseUrl,
             url: hashbanged ? parser.hash : parser.pathname,
             pattern: baseUrl,
-            params: {},
+            params: this.getState(),
             sender: '',
         };
     }

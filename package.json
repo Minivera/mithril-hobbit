@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html -p $PORT",
-    "lint:js": "eslint src/ webpack.*.js --cache --fix"
+    "lint:js": "eslint src/ --cache --fix"
   },
   "keywords": [
     "mithril",
@@ -17,9 +17,10 @@
   ],
   "author": "Minivera",
   "dependencies": {
+    "lokijs": "^1.5.5",
     "mithril": "^1.1.6",
-    "mithril-hobbit-archivist": "0.0.2",
-    "mithril-hobbit-navigator": "0.1.0"
+    "mithril-hobbit-archivist": "^0.1.0",
+    "mithril-hobbit-navigator": "^0.2.0"
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",

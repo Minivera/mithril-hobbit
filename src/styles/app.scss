@@ -15,49 +15,65 @@ body, #root {
 }
 
 .index {
-  width: 350px;
-  text-align: center;
-  .red, .blue, .green {
+  width: 100%;
+  display: flex;
+  
+  .sidebar {
     width: 250px;
-    height: 250px;
-    text-align: center;
-    margin:auto;
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+    padding: 10px;
+    border-radius: 15px;
+    border: solid grey 2px;
     
-    h2 {
-      color: white;
-    }
-    
-    .red, .blue, .green {
-      width: 150px;
-      height: 150px;
-      margin: auto;
-    }
-  }
-  
-  .red {
-    background-color: red;
-  }
-  
-  .blue {
-    background-color: blue;
-  }
-  
-  .green {
-    background-color: green;
-  }
-  
-  .links {
-    text-align: center;
-    
-    a {
-      margin-right: 5px;
-      text-decoration: underline;
-      cursor: pointer;
-      color: darkblue;
-      
-      &:hover {
-        color: black;
+    .block {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+      padding-left: 5px;
+        
+      a {
+        margin-right: 5px;
+        text-decoration: underline;
+        cursor: pointer;
+        color: darkblue;
+        
+        &:hover {
+          color: black;
+        }
       }
+    }
+  }
+  
+  .main {
+    .red, .blue, .green {
+      width: 250px;
+      height: 250px;
+      text-align: center;
+      margin:auto;
+      
+      h2 {
+        color: white;
+      }
+      
+      .red, .blue, .green {
+        width: 150px;
+        height: 150px;
+        margin: auto;
+      }
+    }
+    
+    .red {
+      background-color: red;
+    }
+    
+    .blue {
+      background-color: blue;
+    }
+    
+    .green {
+      background-color: green;
     }
   }
 }

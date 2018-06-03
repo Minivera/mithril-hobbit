@@ -65,26 +65,27 @@ const routeComponent = {
  *  accept its parameters in one of two ways.
  * </p>
  * <p>
- *  The first type of parameters is to rendr only one component for one route.
- *  If the function receives a first string parameters and a component or vnode
+ *  The first type of parameters is to render only one component for one route.
+ *  If the function receives a first string parameters and a component vnode
  *  as its second, it will only render this single route/component.
  * </p>
  * <pre>
- *  r('/route', component); //To render a component
- *  //or
- *  r('/route', m()); //To render a vnode
+ *  r('/route', m());
  * </pre>
  * <p>
- *  The second type is an array of routes/components pair. It will run on each
+ *  The second type is an object of routes/components pairs. It will run on each
  *  pair <b>in order</b> and render the first pair where the route pattern
  *  matches the URL.
  * </p>
  * <pre>
- *  r([
- *   ['/route', component], //To render a component
- *   ['/route', m()], //To render a vnode
- *  ]);
+ *  r({
+ *      '/route', m(),
+ *  });
  * </pre>
+ * <p>
+ *  This method also allows the use of a 404 route by setting a route under null
+ *  or an empty string.
+ * </p>
  * <p>
  *  A final parameter can be given to pass options for comparing routes with
  *  the URL;
@@ -105,7 +106,7 @@ const routeComponent = {
  */
 function r() {
     //Extract the arguments from the arguments object
-    let routes = [];
+    let routes = {};
     let options = {};
     //If the arguments array if smaller than 1.
     if (arguments.length < 1)
@@ -114,8 +115,8 @@ function r() {
         console.error('The \'r\' function expects at least one argument');
         return null;
     }
-    //If the arguments first element is an array (Thus, array of routes)
-    if (arguments[0].constructor === Array)
+    //If the arguments first element is an object (Thus, an object of routes)
+    if (typeof arguments[0] === 'object')
     {
         routes = arguments[0];
         if (arguments.length > 1 && typeof(arguments[1]) === 'object')
@@ -127,7 +128,7 @@ function r() {
     else if (arguments.length > 1)
     {
         //Create the routes ourselves
-        routes = [[arguments[0], arguments[1]]];
+        routes[arguments[0]] = arguments[1];
         if (arguments.length > 2 && typeof(arguments[2]) === 'object')
         {
             //If there is also a third argument of type object
@@ -140,46 +141,44 @@ function r() {
             before trying to render a route.`);
         return null;
     }
-    for (const index in routes)
+    for (const route in routes)
     {
-        const route = routes[index][0];
-        const component = routes[index][1];
-        const params = routes[index][2];
+        let component = routes[route];
         if (manager.compare(route, options))
         {
-            //Check if the component is actually a VNode, if it is, clone it
-            if (typeof(component) === 'object' && component.tag)
+            //Check if the component is actually a component VNode, if it is, clone it
+            if (typeof(component) === 'object' && component.tag
+                && typeof(component.tag.view) === 'function')
             {
                 //Shallow dumb cloning
                 return m(routeComponent, [
                     Object.assign({}, component, {
                         attrs: {
                             ...component.attrs,
-                            location: manager.getLocation(),
+                            location: Object.assign({}, 
+                                manager.getLocation(),
+                                { 
+                                    params: manager.extractParams(route, options),
+                                }
+                            ),
                             params: Object.assign(
                                 {},
                                 manager.getState(),
                                 manager.extractParams(route, options)
                             ),
-                            ...params,
                         },
                     }),
                 ]);
             }
-            //Otherwise, make it a VNode
-            return m(routeComponent, [
-                m(component, {
-                    location: manager.getLocation(),
-                    params: Object.assign(
-                        {},
-                        manager.getState(),
-                        manager.extractParams(route, options)
-                    ),
-                    ...params,
-                }),
-            ]);
+            //Maybe it just a normal vnode, render anyway
+            else if (typeof(component) === 'object' && component.tag) {
+                return m(routeComponent, [
+                    component,
+                ]);
+            }
         }
     }
+    //If nothing passed, return null
     return null;
 }
 
@@ -252,6 +251,50 @@ r.navigate = (route, params = {}, options = {}) => {
     manager.navigate(route, Object.assign({}, {
         params,
     }, options));
+};
+
+/**
+ * Overloads the given vnode to add the location and route params to the
+ * component's attributes. Add the location under <code>attr.location</code>
+ * and the params under <code>attr.params</code>.
+ * @param {string} pattern - The route pattern to extract the parameter
+ * with. If the pattern has no match with the current URL, the method
+ * will not be abler to add the proper parameters.
+ * @param {Object} component - Component vnode that should be extended by
+ * the method.
+ * @param {Object} [options={}] - The options object to change the behavior
+ * of the method.
+ * @param {string} [options.loose=false] - Sets whether or not to return a
+ * match for routes that can be compared with regexes, but are not equal.
+ * For example, `/foo` and `/foo/bar` would return true with loose
+ * activated.
+ * @param {string} [options.caseSensitive=true] - Sets whether or not to
+ * match the two routes with case sensivity.
+ * @param {string} [options.strict=false] - Sets whether or not to enforce
+ * an ending slash for all routes pattern.
+ * @returns {object} Returns an object that will render the component with
+ * the location and route parameters added to its attributes when the structure
+ * fully renders.
+ */
+r.withLocation = (pattern, component, options) => {
+    return {
+        view: function(vnode) {
+            return m(component, {
+                ...vnode.attrs,
+                location: Object.assign({}, 
+                    manager.getLocation(),
+                    { 
+                        params: manager.extractParams(pattern, options),
+                    }
+                ),
+                params: Object.assign(
+                    {},
+                    manager.getState(),
+                    manager.extractParams(pattern, options)
+                ),
+            });
+        },
+    };
 };
 
 export { r };

@@ -48,13 +48,13 @@ m.mount(document.body.querySelector('#root'), index);
 
 The `r` function creates a router where the component or vnode given will only render if the URL matches the route pattern. For example, the `h3` would only render if the URL is exactly `/index`. `r` can accept either a vnode created by `m` or a component.
 
-`r` also accepts an array of route/view pairs where only the first pair whose route matches the URL will render.
+`r` also accepts an object of route/view pairs where only the first pair whose route matches the URL will render.
 
 ```javascript
-r([
-    ['/index', m('h3', 'Index')],
-    ['/admin', m('h3', 'Admin')]
-])
+r({
+    '/index': m('h3', 'Index'),
+    '/admin': m('h3', 'Admin'),
+})
 ```
 
 The rendered view will always receive the current location in its vnode attributes. It can also be accessed directly with `r.getLocation()`.
@@ -91,7 +91,7 @@ r('', 404);
 r([
     ['/index', m('h3', 'Index')],
     ['/admin', m('h3', 'Admin')],
-    ['', 404]
+    ['', 404] //Or null
 ])
 ```
 
@@ -104,7 +104,7 @@ Hobbit navigator can be used with the base router from mithril without conflicts
 ## API
 
 ### `r(*)`
-`r` can accept one of two arrangements for its arguments, either `r(route, view, options = {})` or `r([[route, view]], options = {})`.
+`r` can accept one of two arrangements for its arguments, either `r(route, view, options = {})` or `r({route: view}, options = {})`.
 
 In both cases, the options object enables some configuration for the routes;
 
@@ -134,6 +134,24 @@ In both cases, the options object enables some configuration for the routes;
 * **sender** set who caused the navigation and is set by the programmer. This option will appear in the location object and is unused by the system, it is however useful for custom animations.
 * **force** forces the navigation even if navigating to the exact same route, otherwise it will ignore any navigation to the exact same url.
 * **options.replace** will use the `replace` function from the history API rather than the `set` function which changes the way the back button works in browsers.
+
+### `r.withLocation(pattern, component, options)`
+`r.withLocation` will decorate the given vnode component with the parameters of the given pattern and the location. This can be useful to ensure a component always has access to the parameters it should have access. For example :
+
+```
+const decorated = r.withLocation('/:test', {
+    view: function(vnode) {
+        // Here vnode.attrs contains location and params
+        // params contains the value of /:test
+    },
+});
+```
+
+It also accepts an option arguments which may contains:
+
+* **loose** will return a match for routes that can be compared with regexes, but are not equal. For example, `/foo` and `/foo/bar` would return true with loose activated.
+* **caseSensitive** will match routes with case sensitivity enabled.
+* **strict** will enfore route patterns to have a trailing slash ("/").
 
 ## Browsers support
 Hobbit navigator supports all browsers in theory. However, browsers with no support for the HTML5 history API will experience a browser refresh on navigation, like mithril does with its own router.
