@@ -10,7 +10,9 @@ import './state';
 import './styles/app.scss';
 
 r.createRouter({
-    //hashbanged: true,
+    hashbanged: true,
+    hashbangPrefix: '#__!',
+    //location: '/block/blue',
 });
 
 const index = {
@@ -22,7 +24,7 @@ const index = {
         if (this.time !== newState)
         {
             this.time = newState;
-            m.redraw(); //Redraws on state changed and different
+            //m.redraw(); //Redraws on state changed and different
         }
     },
     view: function(vnode) {
@@ -37,4 +39,5 @@ const index = {
     },
 };
 
+console.log(r.getLocation());
 m.mount(document.body.querySelector('#root'), subscribe(index, 'time'));
