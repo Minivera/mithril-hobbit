@@ -12,3 +12,6 @@ node_modules
 
 # Rollup config
 !rollup.config.js
+
+# Coverage output
+coverage
