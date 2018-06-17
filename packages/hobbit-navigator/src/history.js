@@ -27,9 +27,10 @@ const baseConfig = {
  * @returns {boolean} Whether the html5 history API is supported or not.
  * @function checkSupport
  */
-const checkSupport = () => {
+export const checkSupport = (win) => {
+    //TODO: Make win do something in the future
     //TODO: Make these warnings hidden in production mode
-    if (typeof window === 'undefined' || !window.document)
+    if (typeof win === 'undefined' || !win.document)
     {
         //If on the server, probably using SSR and should use hashbanged = true plus a basic url
         console.warn(`The history API for hobbit-navigator was executed on the
@@ -37,7 +38,7 @@ const checkSupport = () => {
             set the location manually to display the intended content.`);
         return false;
     }
-    else if (!window.history || !window.history.pushState) 
+    else if (!win.history || !win.history.pushState) 
     {
         console.warn(`It seems you are not using a browser with HTML5 history
             support. Hobbit-navigator will cause the page to refresh rather
@@ -88,7 +89,7 @@ export class History {
      */
     constructor(config = {}) {
         this.configuration = Object.assign({}, baseConfig, config);
-        this.supported = checkSupport();
+        this.supported = checkSupport(window);
         const { hashbanged, hashbangPrefix, location } = this.configuration;
         //Check if a location object in the configuration.
         if (location)
@@ -130,9 +131,9 @@ export class History {
         const baseUrl = hashbanged ? parser.hash.replace(hashbangPrefix, '')
             : parser.pathname;
         this.location = {
-            path: baseUrl,
+            path: baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`,
             url: hashbanged ? parser.hash : parser.pathname,
-            pattern: baseUrl,
+            pattern: baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`,
             params: this.getState(),
             sender: '',
         };
@@ -273,7 +274,7 @@ export class History {
      * @param {string} options.pattern - Additionnal options for the
      * navigation.
      */
-    navigatePure(path, state, {sender = '', replace = false, pattern} = {}) {
+    navigatePure(path, state = {}, {sender = '', replace = false, pattern} = {}) {
         const { hashbanged, hashbangPrefix } = this.configuration;
         const url = `${hashbanged ? hashbangPrefix : ''}${path}`;
         if (!pattern)

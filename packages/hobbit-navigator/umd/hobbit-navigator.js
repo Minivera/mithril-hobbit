@@ -60,13 +60,14 @@
    * @returns {boolean} Whether the html5 history API is supported or not.
    * @function checkSupport
    */
-  var checkSupport = function checkSupport() {
+  var checkSupport = function checkSupport(win) {
+      //TODO: Make win do something in the future
       //TODO: Make these warnings hidden in production mode
-      if (typeof window === 'undefined' || !window.document) {
+      if (typeof win === 'undefined' || !win.document) {
           //If on the server, probably using SSR and should use hashbanged = true plus a basic url
           console.warn('The history API for hobbit-navigator was executed on the\n            server, if this is an expected bahavior (For example, when using SSR),\n            set the location manually to display the intended content.');
           return false;
-      } else if (!window.history || !window.history.pushState) {
+      } else if (!win.history || !win.history.pushState) {
           console.warn('It seems you are not using a browser with HTML5 history\n            support. Hobbit-navigator will cause the page to refresh rather\n            than navigate smoothly. Use a polyfil to prevent this issue.');
           return false;
       }
@@ -117,7 +118,7 @@
           classCallCheck(this, History);
 
           this.configuration = Object.assign({}, baseConfig, config);
-          this.supported = checkSupport();
+          this.supported = checkSupport(window);
           var _configuration = this.configuration,
               hashbanged = _configuration.hashbanged,
               hashbangPrefix = _configuration.hashbangPrefix,
@@ -160,9 +161,9 @@
           parser.href = window.location.href;
           var baseUrl = hashbanged ? parser.hash.replace(hashbangPrefix, '') : parser.pathname;
           this.location = {
-              path: baseUrl,
+              path: baseUrl.startsWith('/') ? baseUrl : '/' + baseUrl,
               url: hashbanged ? parser.hash : parser.pathname,
-              pattern: baseUrl,
+              pattern: baseUrl.startsWith('/') ? baseUrl : '/' + baseUrl,
               params: this.getState(),
               sender: ''
           };
@@ -330,7 +331,9 @@
        */
 
 
-      History.prototype.navigatePure = function navigatePure(path, state) {
+      History.prototype.navigatePure = function navigatePure(path) {
+          var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
           var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
               _ref3$sender = _ref3.sender,
               sender = _ref3$sender === undefined ? '' : _ref3$sender,
