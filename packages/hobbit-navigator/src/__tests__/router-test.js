@@ -70,7 +70,7 @@ describe('The r function', () => {
             });
             
             r.createRouter();
-            const result = r('/foo', m(testComponent));
+            const result = r('/foo', m('div'));
             expect(result).toEqual(null);
         });
         
@@ -82,6 +82,16 @@ describe('The r function', () => {
             r.createRouter();
             const result = r('/test', m(testComponent));
             expect(typeof result.tag).toBe('object');
+        });
+        
+        it('will render nothing if given a matching route, bot not a valid component', () => {
+            jsdom.reconfigure({
+                url: 'https://test.com/test',
+            });
+            
+            r.createRouter();
+            const result = r('/test', {});
+            expect(result).toEqual(null);
         });
         
         it('will render the route vnode if given a matching route', () => {
@@ -148,7 +158,7 @@ describe('The r function', () => {
         });
     });
     
-    describe('when used with a single route as its parameters', () => {
+    describe('when used with multiple routes as its parameters', () => {
         it('will render null if given routes that do not match', () => {
             jsdom.reconfigure({
                 url: 'https://test.com/test',
@@ -191,6 +201,19 @@ describe('The r function', () => {
             });
             
             expect(typeof result.tag).toBe('object');
+        });
+        
+        it('will render nothing if given a matching route, bot not a valid component', () => {
+            jsdom.reconfigure({
+                url: 'https://test.com/test',
+            });
+            
+            r.createRouter();
+            const result = r({
+                '/test': {},
+                '/bar': {},
+            });
+            expect(result).toEqual(null);
         });
         
         describe('and options', () => {

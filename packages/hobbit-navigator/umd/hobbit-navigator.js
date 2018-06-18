@@ -525,34 +525,31 @@
    * @function r
    * @namespace r
    */
-  function r() {
+  var r = function r(routes, compOrOptions, options) {
       //If the manager hasn't yet been created
       if (!manager) {
           throw 'The router was not initialized using \'createRouter\'\n            before trying to render a route.';
       }
       //If the arguments array if smaller than 1.
-      if (arguments.length < 1) {
+      if (typeof routes == 'undefined') {
           //Error and return
           throw 'The \'r\' function expects at least one argument';
       }
-      //Extract the arguments from the arguments object
-      var routes = {};
-      var options = {};
-      //If the arguments first element is an object (Thus, an object of routes)
-      if (_typeof(arguments[0]) === 'object') {
-          routes = arguments[0];
-          if (arguments.length > 1 && _typeof(arguments[1]) === 'object') {
-              //If there is also a second argument of type object
-              options = arguments[1];
-          }
-      } else if (arguments.length > 1) {
+      //If the compOrOptions argument is a component
+      if (compOrOptions && compOrOptions.hasOwnProperty('tag')) {
+          var _routes;
+
           //Create the routes ourselves
-          routes[arguments[0]] = arguments[1];
-          if (arguments.length > 2 && _typeof(arguments[2]) === 'object') {
+          routes = (_routes = {}, _routes[routes] = compOrOptions, _routes);
+          if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
               //If there is also a third argument of type object
-              options = arguments[2];
+              options = options;
           }
       }
+      //If instead the compOrOptions argument is an option object
+      else if ((typeof compOrOptions === 'undefined' ? 'undefined' : _typeof(compOrOptions)) === 'object') {
+              options = compOrOptions;
+          }
       for (var route in routes) {
           var component = routes[route];
           if (manager.compare(route, options)) {
@@ -576,7 +573,7 @@
       }
       //If nothing passed, return null
       return null;
-  }
+  };
 
   /**
    * Creates the main router for the application using the given configuration
