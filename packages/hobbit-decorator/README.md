@@ -4,7 +4,7 @@
 
 Hobbit decorator is part of the [Hobbit framework](https://github.com/Minivera/mithril-hobbit) for mithril. This package contains a set of components to improve the functionalities for micro-components and introduce better programming habits to mithril.
 
-The component set is easy to use and extremely light - weighing less than 1KB - bringing the whole mithril package to just about 5 KB.
+The component set is easy to use and extremely light - weighing less than 1KB - bringing the whole mithril package to just about 9 KB.
 
 ## How to install
 

@@ -29,7 +29,7 @@ const subscribers = [];
  * state update.
  * @function notify
  */
-const notify = (path) => {
+export const notify = (path) => {
     subscribers.forEach((subscriber) => {
         if (subscriber.notify)
         {
@@ -72,6 +72,17 @@ export const Store = {
         }
         return this;
     },
+    
+    /**
+     * Internal method that resets the store to undefined.
+     * @returns {Object} Return itself for easier management and chaining.
+     * @methodOf module:store~Store
+     */
+    _resetStore() {
+        state = undefined;
+        return this;
+    },
+    
     /**
      * Returns the current state store inside the state connector. If the state
      * hasn't been initialized yet, a warning is displayed and the operation
@@ -83,12 +94,12 @@ export const Store = {
     getState() {
         if (!state)
         {
-            console.warn(`The store hasn't yet ben set for hobbit-archivist.
-                Set the store using 'createStore' before trying to access it.`);
-            return null;
+            throw `The store hasn't yet ben set for hobbit-archivist.
+                Set the store using 'createStore' before trying to access it.`;
         }
         return state.all();
     },
+    
     /**
      * Subscribes the given subscriber object to the update on this particular
      * state store.
@@ -104,6 +115,7 @@ export const Store = {
     subscribe(subscriber) {
         return subscribers.push(subscriber) - 1;
     },
+    
     /**
      * Unsubscribes the subscriber under the given key in the array of
      * subscribers.
@@ -116,6 +128,7 @@ export const Store = {
     unsubscribe(key) {
         subscribers.splice(key, 1);
     },
+    
     /**
      * Finds the data in the state under the given path. The path should be an
      * exact path that guides to the right data written like normal dot paths.
@@ -128,8 +141,14 @@ export const Store = {
      * @methodOf module:store~Store
      */
     find(path) {
+        if (!state)
+        {
+            throw `The store hasn't yet ben set for hobbit-archivist.
+                Set the store using 'createStore' before trying to access it.`;
+        }
         return state.find(path);
     },
+    
     /**
      * <p>
      *   Set the data under the given path. The path should be an
@@ -151,9 +170,15 @@ export const Store = {
      * @methodOf module:store~Store
      */
     set(path, value) {
+        if (!state)
+        {
+            throw `The store hasn't yet ben set for hobbit-archivist.
+                Set the store using 'createStore' before trying to access it.`;
+        }
         state.set(path, value);
         notify(path);
     },
+    
     /**
      * Removes the data under the given path if it exists. The path should be an
      * exact path that guides to the right data written like normal dot paths.
@@ -165,13 +190,24 @@ export const Store = {
      * @methodOf module:store~Store
      */
     remove(path) {
+        if (!state)
+        {
+            throw `The store hasn't yet ben set for hobbit-archivist.
+                Set the store using 'createStore' before trying to access it.`;
+        }
         state.remove(path);
         notify(path);
     },
+    
     /**
      * Resets the whole store by clearing all its values.
      */
     reset() {
+        if (!state)
+        {
+            throw `The store hasn't yet ben set for hobbit-archivist.
+                Set the store using 'createStore' before trying to access it.`;
+        }
         state.clear();
     },
 };

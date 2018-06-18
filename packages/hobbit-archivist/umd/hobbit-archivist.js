@@ -36,15 +36,21 @@
    * the new value.
    */
   var setRecursively = function setRecursively(object, pathParts, value) {
-      var _Object$assign;
+      var _Object$assign2;
 
-      //Make sure the current object is actually an object
+      //Make sure the property is an object
       if ((typeof object === 'undefined' ? 'undefined' : _typeof(object)) !== 'object') {
-          //If not, return self and cancel the recursivity
+          //Ends recursivity, we don't want to overwrite non objects
           return object;
       }
-      //Otherwise, continue with the resursivity without mutating
-      return Object.assign({}, object, (_Object$assign = {}, _Object$assign[pathParts[0]] = pathParts.length > 1 ? setRecursively(object[pathParts[0]], pathParts.slice(1), value) : value, _Object$assign));
+      //Make sure the property actually exists
+      if (!object.hasOwnProperty(pathParts[0])) {
+          var _Object$assign;
+
+          object = Object.assign({}, object, (_Object$assign = {}, _Object$assign[pathParts[0]] = {}, _Object$assign));
+      }
+      //Continue with the resursivity without mutating
+      return Object.assign({}, object, (_Object$assign2 = {}, _Object$assign2[pathParts[0]] = pathParts.length > 1 ? setRecursively(object[pathParts[0]], pathParts.slice(1), value) : value, _Object$assign2));
   };
 
   /**
@@ -220,6 +226,18 @@
           return this;
       },
 
+
+      /**
+       * Internal method that resets the store to undefined.
+       * @returns {Object} Return itself for easier management and chaining.
+       * @methodOf module:store~Store
+       */
+      _resetStore: function _resetStore() {
+          state = undefined;
+          return this;
+      },
+
+
       /**
        * Returns the current state store inside the state connector. If the state
        * hasn't been initialized yet, a warning is displayed and the operation
@@ -230,11 +248,11 @@
        */
       getState: function getState() {
           if (!state) {
-              console.warn('The store hasn\'t yet ben set for hobbit-archivist.\n                Set the store using \'createStore\' before trying to access it.');
-              return null;
+              throw 'The store hasn\'t yet ben set for hobbit-archivist.\n                Set the store using \'createStore\' before trying to access it.';
           }
           return state.all();
       },
+
 
       /**
        * Subscribes the given subscriber object to the update on this particular
@@ -252,6 +270,7 @@
           return subscribers.push(subscriber) - 1;
       },
 
+
       /**
        * Unsubscribes the subscriber under the given key in the array of
        * subscribers.
@@ -265,6 +284,7 @@
           subscribers.splice(key, 1);
       },
 
+
       /**
        * Finds the data in the state under the given path. The path should be an
        * exact path that guides to the right data written like normal dot paths.
@@ -277,8 +297,12 @@
        * @methodOf module:store~Store
        */
       find: function find(path) {
+          if (!state) {
+              throw 'The store hasn\'t yet ben set for hobbit-archivist.\n                Set the store using \'createStore\' before trying to access it.';
+          }
           return state.find(path);
       },
+
 
       /**
        * <p>
@@ -301,9 +325,13 @@
        * @methodOf module:store~Store
        */
       set: function set(path, value) {
+          if (!state) {
+              throw 'The store hasn\'t yet ben set for hobbit-archivist.\n                Set the store using \'createStore\' before trying to access it.';
+          }
           state.set(path, value);
           notify(path);
       },
+
 
       /**
        * Removes the data under the given path if it exists. The path should be an
@@ -316,14 +344,21 @@
        * @methodOf module:store~Store
        */
       remove: function remove(path) {
+          if (!state) {
+              throw 'The store hasn\'t yet ben set for hobbit-archivist.\n                Set the store using \'createStore\' before trying to access it.';
+          }
           state.remove(path);
           notify(path);
       },
+
 
       /**
        * Resets the whole store by clearing all its values.
        */
       reset: function reset() {
+          if (!state) {
+              throw 'The store hasn\'t yet ben set for hobbit-archivist.\n                Set the store using \'createStore\' before trying to access it.';
+          }
           state.clear();
       }
   };
@@ -360,12 +395,12 @@
    */
   var subscribe = function subscribe(component, path) {
       if (component.view == null && typeof component !== 'function') {
-          throw new Error('subscribe(component, path) expects a component, \n            not a vnode.');
+          throw 'subscribe(component, path) expects a component, \n            not a vnode.';
       }
 
       //Create the subscriber object that will be given to the store
       var subscriber = {
-          notify: function notify(notifiedPath) {
+          notify: function notify$$1(notifiedPath) {
               if (path.includes(notifiedPath) && component.onstatechanged) {
                   component.onstatechanged(Store.find(notifiedPath));
               }
@@ -413,7 +448,7 @@
    */
   var bind = function bind(component, path) {
       if (component.view == null && typeof component !== 'function') {
-          throw new Error('bind(component, path) expects a component, \n            not a vnode.');
+          throw 'bind(component, path) expects a component, \n            not a vnode.';
       }
 
       return {

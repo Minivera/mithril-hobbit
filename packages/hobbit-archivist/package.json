@@ -1,6 +1,6 @@
 {
   "name": "mithril-hobbit-archivist",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Central state management and subscription for Mithril",
   "repository": "Minivera/mithril-hobbit",
   "license": "MIT",
@@ -11,7 +11,9 @@
     "prepublishOnly": "npm run lint && npm run test && npm run build",
     "clean": "git clean -fdX .",
     "lint": "eslint ./src",
-    "test": "jest && npm run test:bundlesize",
+    "test": "npm run test:jest && npm run test:bundlesize",
+    "test:jest": "jest --env=jest-environment-jsdom-global",
+    "test:coverage": "jest --env=jest-environment-jsdom-global --coverage",
     "test:bundlesize": "bundlesize"
   },
   "bundlesize": [
@@ -50,6 +52,9 @@
     "eslint": "^4.19.1",
     "gzip-size": "^4.1.0",
     "jest": "^22.4.3",
+    "jest-environment-jsdom": "^23.1.0",
+    "jest-environment-jsdom-global": "^1.1.0",
+    "mithril": "^1.1.6",
     "pretty-bytes": "^4.0.2",
     "raf": "^3.4.0",
     "rollup": "^0.58.2",

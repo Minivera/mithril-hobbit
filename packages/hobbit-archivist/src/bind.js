@@ -27,8 +27,8 @@ import { Store } from './store';
 export const bind = (component, path) => {
     if (component.view == null && typeof component !== 'function')
     {
-        throw new Error(`bind(component, path) expects a component, 
-            not a vnode.`);
+        throw `bind(component, path) expects a component, 
+            not a vnode.`;
     }
     
     return {

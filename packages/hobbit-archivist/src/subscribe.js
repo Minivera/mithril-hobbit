@@ -34,8 +34,8 @@ import { Store } from './store';
 export const subscribe = (component, path) => {
     if (component.view == null && typeof component !== 'function')
     {
-        throw new Error(`subscribe(component, path) expects a component, 
-            not a vnode.`);
+        throw `subscribe(component, path) expects a component, 
+            not a vnode.`;
     }
     
     //Create the subscriber object that will be given to the store

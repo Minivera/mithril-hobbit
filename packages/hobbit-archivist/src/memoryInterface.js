@@ -15,14 +15,21 @@
  * @returns {Object} Returns the original object cloned and updated with
  * the new value.
  */
-const setRecursively = (object, pathParts, value) => {
-    //Make sure the current object is actually an object
-    if (typeof object !== 'object')
+export const setRecursively = (object, pathParts, value) => {
+    //Make sure the property is an object
+    if (typeof object !== 'object') 
     {
-        //If not, return self and cancel the recursivity
+        //Ends recursivity, we don't want to overwrite non objects
         return object;
     }
-    //Otherwise, continue with the resursivity without mutating
+    //Make sure the property actually exists
+    if (!object.hasOwnProperty(pathParts[0]))
+    {
+        object = Object.assign({}, object, {
+            [pathParts[0]]: {},
+        });
+    }
+    //Continue with the resursivity without mutating
     return Object.assign({}, object, {
         [pathParts[0]]: pathParts.length > 1 ? 
             setRecursively(object[pathParts[0]], pathParts.slice(1), value)

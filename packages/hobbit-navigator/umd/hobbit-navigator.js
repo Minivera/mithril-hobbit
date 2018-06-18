@@ -526,15 +526,18 @@
    * @namespace r
    */
   function r() {
-      //Extract the arguments from the arguments object
-      var routes = {};
-      var options = {};
+      //If the manager hasn't yet been created
+      if (!manager) {
+          throw 'The router was not initialized using \'createRouter\'\n            before trying to render a route.';
+      }
       //If the arguments array if smaller than 1.
       if (arguments.length < 1) {
           //Error and return
-          console.error('The \'r\' function expects at least one argument');
-          return null;
+          throw 'The \'r\' function expects at least one argument';
       }
+      //Extract the arguments from the arguments object
+      var routes = {};
+      var options = {};
       //If the arguments first element is an object (Thus, an object of routes)
       if (_typeof(arguments[0]) === 'object') {
           routes = arguments[0];
@@ -549,10 +552,6 @@
               //If there is also a third argument of type object
               options = arguments[2];
           }
-      }
-      if (!manager) {
-          console.error('The router was not initialized using \'createRouter\'\n            before trying to render a route.');
-          return null;
       }
       for (var route in routes) {
           var component = routes[route];
@@ -600,6 +599,15 @@
   };
 
   /**
+   * Internal function that allows the history manager to be reset, i.e.,
+   * set to undefined.
+   * @methodOf module:router~r
+   */
+  r._resetRouter = function () {
+      manager = undefined;
+  };
+
+  /**
    * Returns the location currently stored inside the History manager created by
    * the router.
    * @returns {Object} Returns an object contaning the location.
@@ -608,8 +616,7 @@
    */
   r.getLocation = function () {
       if (!manager) {
-          console.error('The router was not initialized using \'createRouter\'\n            before trying to render a route.');
-          return null;
+          throw 'The router was not initialized using \'createRouter\'\n            before trying to render a route.';
       }
       return manager.getLocation();
   };
@@ -641,8 +648,7 @@
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
       if (!manager) {
-          console.error('The router was not initialized using \'createRouter\'\n            before trying to render a route.');
-          return null;
+          throw 'The router was not initialized using \'createRouter\'\n            before trying to render a route.';
       }
       manager.navigate(route, Object.assign({}, {
           params: params
@@ -673,13 +679,16 @@
    * fully renders.
    */
   r.withLocation = function (pattern, component, options) {
+      if (!manager) {
+          throw 'The router was not initialized using \'createRouter\'\n            before trying to render a route.';
+      }
       return {
           view: function view(vnode) {
               return m(component, _extends({}, vnode.attrs, {
                   location: Object.assign({}, manager.getLocation(), {
                       params: manager.extractParams(pattern, options)
                   }),
-                  params: Object.assign({}, manager.getState(), manager.extractParams(pattern, options))
+                  params: Object.assign({}, manager.extractParams(pattern, options))
               }));
           }
       };
