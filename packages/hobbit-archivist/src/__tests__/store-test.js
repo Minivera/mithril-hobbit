@@ -2,6 +2,7 @@
 /*global it*/
 /*global expect*/
 /*global beforeEach*/
+/*global jest*/
 
 import { notify, Store } from '../store';
 
@@ -32,14 +33,11 @@ describe('The Store object', () => {
                 test: 'test',
             };
         
-            let setState;
-            function connector(initalState) {
-                setState = initalState;
-            };
+            const connector = jest.fn();
             
             Store.createStore(state, connector);
             
-            expect(setState).toEqual(state);
+            expect(connector).toHaveBeenCalledWith(state);
         });
     });
     
@@ -70,18 +68,15 @@ describe('The Store object', () => {
         it('will properly subscribe and return the sub key', () => {
             Store.createStore();
             
-            let notified = false;
             const subscriber = {
-                notify() {
-                    notified = true;
-                },
+                notify: jest.fn(),
             };
             
             const key = Store.subscribe(subscriber);
             Store.unsubscribe(key);
             notify();
             
-            expect(notified).toEqual(false);
+            expect(subscriber.notify).not.toHaveBeenCalled();
         });
     });
     
@@ -123,11 +118,8 @@ describe('The Store object', () => {
             };
             Store.createStore(state);
             
-            let notified = false;
             const subscriber = {
-                notify() {
-                    notified = true;
-                },
+                notify: jest.fn(),
             };
             
             Store.subscribe(subscriber);
@@ -136,7 +128,7 @@ describe('The Store object', () => {
             expect(Store.getState()).toEqual({
                 test: 'bar',
             });
-            expect(notified).toEqual(true);
+            expect(subscriber.notify).toHaveBeenCalledWith('test');
         });
     });
     
@@ -161,18 +153,15 @@ describe('The Store object', () => {
             };
             Store.createStore(state);
             
-            let notified = false;
             const subscriber = {
-                notify() {
-                    notified = true;
-                },
+                notify: jest.fn(),
             };
             
             Store.subscribe(subscriber);
             Store.remove('test');
             
             expect(Store.getState()).toEqual({});
-            expect(notified).toEqual(true);
+            expect(subscriber.notify).toHaveBeenCalledWith('test');
         });
     });
     

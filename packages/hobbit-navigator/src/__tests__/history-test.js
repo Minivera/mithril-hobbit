@@ -402,10 +402,7 @@ describe('The History class', () => {
         it('navigates with a replace rather than a push with the replace option', () => {
             const manager = new History();
             
-            let error = false;
-            console.warn = jest.fn(() => {
-                error = true;
-            });
+            console.warn = jest.fn();
             
             manager.navigatePure('/test', {}, {
                 replace: true,
@@ -418,7 +415,7 @@ describe('The History class', () => {
                 sender: '',
                 url: '/test',
             });
-            expect(error).toEqual(false);
+            expect(console.warn).not.toHaveBeenCalled();
             
             manager.supported = false;
             manager.navigatePure('/test', {}, {
@@ -432,7 +429,7 @@ describe('The History class', () => {
                 sender: '',
                 url: '/test',
             });
-            expect(error).toEqual(true);
+            expect(console.warn).toHaveBeenCalled();
         });
     });
     

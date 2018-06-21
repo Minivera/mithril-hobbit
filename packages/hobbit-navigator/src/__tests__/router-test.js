@@ -16,36 +16,27 @@ const testComponent = {
 
 describe('The routeComponent object', () => {
     it('creates its event listener on oncreate', () => {
-        let listened = false;
-        window.addEventListener = jest.fn(() => {
-            listened = true;
-        });
+        window.addEventListener = jest.fn();
         
         routeComponent.oncreate();
         
-        expect(listened).toEqual(true);
+        expect(window.addEventListener).toHaveBeenCalled();
     });
     
     it('removes its event listener on onremove', () => {
-        let listened = true;
-        window.removeEventListener = jest.fn(() => {
-            listened = false;
-        });
+        window.removeEventListener = jest.fn();
         
         routeComponent.onremove();
         
-        expect(listened).toEqual(false);
+        expect(window.removeEventListener).toHaveBeenCalled();
     });
     
     it('triggers a redraw on routing', () => {
-        let redrawn = false;
-        m.redraw = jest.fn(() => {
-            redrawn = true;
-        });
+        m.redraw = jest.fn();
         
         routeComponent.redrawNode();
         
-        expect(redrawn).toEqual(true);
+        expect(m.redraw).toHaveBeenCalled();
     });
 });
 
