@@ -5,7 +5,7 @@
 /**
  * Compose multiple enhancers together to reduce nesting an simplify how
  * components can be enhanced. When using, function are executed from
- * top to bottom, so attributes propagate this way too.
+ * bottom to top, so attributes propagate this way too.
  * @function compose
  */
 const compose = (...functions) =>

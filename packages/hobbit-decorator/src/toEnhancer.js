@@ -5,7 +5,7 @@ import { enhance } from './enhance';
  */
  
 /**
- * Transforms a normal component to an ehancer so it can be used with other
+ * Transforms a normal component to an enhancer so it can be used with other
  * enhancers in chained calls.
  * @function withTernary
  * @param {Object} component - The component to transform to an enhancer.

@@ -21,22 +21,22 @@ exec('babel src --out-dir es --ignore __tests__', {
     BABEL_ENV: 'es',
 });
 
-console.log('\nBuilding hobbit-navigator.js ...');
+console.log('\nBuilding hobbit-decorator.js ...');
 
-exec('rollup -c -f umd -o umd/hobbit-navigator.js', {
+exec('rollup -c -f umd -o umd/hobbit-decorator.js', {
     BABEL_ENV: 'umd',
     NODE_ENV: 'development',
 });
 
-console.log('\nBuilding hobbit-navigator.min.js ...');
+console.log('\nBuilding hobbit-decorator.min.js ...');
 
-exec('rollup -c -f umd -o umd/hobbit-navigator.min.js', {
+exec('rollup -c -f umd -o umd/hobbit-decorator.min.js', {
     BABEL_ENV: 'umd',
     NODE_ENV: 'production',
 });
 
 const size = gzipSize.sync(
-    fs.readFileSync('umd/hobbit-navigator.min.js')
+    fs.readFileSync('umd/hobbit-decorator.min.js')
 );
 
 console.log('\ngzipped, the UMD build is %s', prettyBytes(size));
