@@ -1,4 +1,4 @@
-# Mithril Hobbit Navigator
+# Mithril Hobbit Decorator
 
 [![NPM Version](https://img.shields.io/npm/v/mithril-hobbit-decorator.svg)](https://www.npmjs.com/package/mithril-hobbit-decorator) [![NPM License](https://img.shields.io/npm/l/mithril-hobbit-decorator.svg)](https://www.npmjs.com/package/mithril-hobbit-decorator) [![NPM Downloads](https://img.shields.io/npm/dm/mithril-hobbit-decorator.svg)](https://www.npmjs.com/package/mithril-hobbit-decorator)
 
