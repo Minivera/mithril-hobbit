@@ -23,15 +23,13 @@ import { enhance } from './enhance';
  */
 const withAttrsValidation = validators => component => {
     return enhance((attributes) => {
-        for (let attr in attributes) 
-        {
-            //Make sure the prop is not inherited and is a function
-            if (attributes.hasOwnProperty(attr) && validators.hasOwnProperty(attr)
-                && !validators[attr](attributes[attr], attr, attributes)) 
+        Object.keys(attributes).forEach((attr) => {
+            if (validators.hasOwnProperty(attr)
+            && !validators[attr](attributes[attr], attr, attributes)) 
             {
                 console.error(`Failed validation on the attribute '${attr}'`);
             }
-        }
+        });
         return attributes;
     }, component);
 };

@@ -21,20 +21,19 @@ import { enhance } from './enhance';
 const withAttrsRename = renames => component => {
     return enhance((attributes) => {
         const newAttrs = {};
-        for (let attr in renames) 
-        {
-            if (renames.hasOwnProperty(attr) && attributes.hasOwnProperty(attr)) 
+        Object.keys(attributes).forEach((attr) => {
+            if (renames.hasOwnProperty(attr)) 
             {
                 if (typeof(request) === 'function')
                 {
                     newAttrs[renames[attr]] = attributes[attr](attributes);
-                    continue;
+                    return;
                 }
                 newAttrs[renames[attr]] = attributes[attr];
-                continue;
+                return;
             }
             newAttrs[attr] = attributes[attr];
-        }
+        });
         return newAttrs;
     }, component);
 };

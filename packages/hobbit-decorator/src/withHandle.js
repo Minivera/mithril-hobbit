@@ -20,22 +20,16 @@ import { enhance } from './enhance';
  */
 const withHandle = handlers => component => {
     return enhance((attributes) => {
-        const newAttrs = {};
         if (typeof(handlers) === 'function')
         {
             handlers = handlers(attributes);
         }
-        for (let attr in handlers) 
-        {
-            if (handlers.hasOwnProperty(attr) && attributes.hasOwnProperty(attr)) 
-            {
-                newAttrs[attr] = (args) =>
-                    handlers[attr].apply(component, args);
-            }
-        }
         return Object.assign({},
             attributes,
-            newAttrs
+            Object.keys(handlers).map((attr) => {
+                return (args) =>
+                    handlers[attr].apply(component, args);
+            })
         );
     }, component);
 };

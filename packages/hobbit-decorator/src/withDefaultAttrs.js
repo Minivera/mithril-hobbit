@@ -19,21 +19,14 @@ import { enhance } from './enhance';
  */
 const withDefaultAttrs = defaults => component => {
     return enhance((attributes) => {
-        const newAttrs = {};
-        for (let attr in attributes) 
-        {
-            //Make sure the prop is not inherited and is a function
-            if (attributes.hasOwnProperty(attr) && defaults.hasOwnProperty(attr)
-                && typeof(attributes[attr]) === 'undefined') 
+        return Object.keys(attributes).map((attr) => {
+            if (defaults.hasOwnProperty(attr) && typeof(attributes[attr]) === 'undefined') 
             {
-                newAttrs[attr] = typeof(defaults[attr]) === 'function' ?
+                return typeof(defaults[attr]) === 'function' ?
                     defaults[attr](attributes) : defaults[attr];
             }
-        }
-        return Object.assign({},
-            attributes,
-            newAttrs
-        );
+            return attributes[attr];
+        });
     }, component);
 };
 

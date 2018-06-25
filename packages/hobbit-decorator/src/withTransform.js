@@ -22,22 +22,17 @@ import { enhance } from './enhance';
  */
 const withTransform = transformators => component => {
     return enhance((attributes) => {
-        const newAttrs = {};
         if (typeof(transformators) === 'function')
         {
             transformators = transformators(attributes);
         }
-        for (let attr in transformators) 
-        {
-            if (transformators.hasOwnProperty(attr) && attributes.hasOwnProperty(attr)) 
+        return Object.keys(attributes).map((attr) => {
+            if (transformators.hasOwnProperty(attr)) 
             {
-                newAttrs[attr] = transformators[attr](attributes[attr], attr, attributes);
+                return transformators[attr](attributes[attr], attr, attributes);
             }
-        }
-        return Object.assign({},
-            attributes,
-            newAttrs
-        );
+            return attributes[attr];
+        });
     }, component);
 };
 

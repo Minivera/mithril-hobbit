@@ -23,20 +23,19 @@
  */
 function expand(expander) { //Normal function as rollup cannot handle this with arrow functions
     return function(component) {
-        for (let func in expander) 
-        {
-            //Make sure the prop is not inherited and is a function
-            if (expander.hasOwnProperty(func) && typeof(expander[func]) === 'function') 
+        Object.keys(expander).forEach((func) => {
+            if (typeof(expander[func]) !== 'function')
             {
-                const original = component[func];
-                component = Object.assign({}, component, {
-                    [func]: (...args) => {
-                        const result = expander[func].apply(this, args);
-                        original.apply(this, args.concat(result));
-                    },
-                });
+                return;
             }
-        }
+            const original = component[func];
+            component = Object.assign({}, component, {
+                [func]: (...args) => {
+                    const result = expander[func].apply(this, args);
+                    original.apply(this, args.concat(result));
+                },
+            });
+        });
         return component;
     };
 }
