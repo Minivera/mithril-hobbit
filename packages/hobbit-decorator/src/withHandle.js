@@ -24,12 +24,14 @@ const withHandle = handlers => component => {
         {
             handlers = handlers(attributes);
         }
+        const newAttrs = {};
+        Object.keys(handlers).forEach((attr) => {
+            newAttrs[attr] = (...args) => 
+                handlers[attr].apply(component, args);
+        });
         return Object.assign({},
             attributes,
-            Object.keys(handlers).map((attr) => {
-                return (args) =>
-                    handlers[attr].apply(component, args);
-            })
+            newAttrs
         );
     }, component);
 };

@@ -24,9 +24,9 @@ const withAttrsRename = renames => component => {
         Object.keys(attributes).forEach((attr) => {
             if (renames.hasOwnProperty(attr)) 
             {
-                if (typeof(request) === 'function')
+                if (typeof(renames[attr]) === 'function')
                 {
-                    newAttrs[renames[attr]] = attributes[attr](attributes);
+                    newAttrs[renames[attr](attributes)] = attributes[attr];
                     return;
                 }
                 newAttrs[renames[attr]] = attributes[attr];

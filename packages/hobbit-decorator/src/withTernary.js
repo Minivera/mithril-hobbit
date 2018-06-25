@@ -22,6 +22,10 @@ import m from 'mithril';
 const withTernary = (condition, firstComp, secondComp = null) => component => ({
     view: function(vnode) {
         const enhancer = condition(vnode.attrs) ? firstComp : secondComp;
+        if (typeof enhancer !== 'function')
+        {
+            return null;
+        }
         return enhancer(m(component, vnode.attrs));
     },
 });

@@ -19,7 +19,11 @@ import { enhance } from './enhance';
  * @returns {function} Returns a closure function that takes the component
  * as its argument so it can be easily composed.
  */
-const withState = (valueName, setterName, initialState = null) => component => {
+const withState = (
+    valueName,
+    setterName = `set${valueName.charAt(0).toUpperCase() + valueName.slice(1)}`,
+    initialState = null
+) => component => {
     let state = initialState;
     return enhance((attributes) => {
         return Object.assign({},

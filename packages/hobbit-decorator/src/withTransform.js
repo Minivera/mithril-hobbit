@@ -26,13 +26,17 @@ const withTransform = transformators => component => {
         {
             transformators = transformators(attributes);
         }
-        return Object.keys(attributes).map((attr) => {
-            if (transformators.hasOwnProperty(attr)) 
+        const newAttrs = {};
+        Object.keys(attributes).forEach((attr) => {
+            if (transformators.hasOwnProperty(attr) &&
+                typeof transformators[attr] === 'function') 
             {
-                return transformators[attr](attributes[attr], attr, attributes);
+                newAttrs[attr] = transformators[attr](attributes[attr], attr, attributes);
+                return;
             }
-            return attributes[attr];
+            newAttrs[attr] = attributes[attr];
         });
+        return newAttrs;
     }, component);
 };
 

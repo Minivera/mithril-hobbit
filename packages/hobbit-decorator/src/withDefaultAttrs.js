@@ -19,14 +19,15 @@ import { enhance } from './enhance';
  */
 const withDefaultAttrs = defaults => component => {
     return enhance((attributes) => {
-        return Object.keys(attributes).map((attr) => {
-            if (defaults.hasOwnProperty(attr) && typeof(attributes[attr]) === 'undefined') 
+        const newAttrs = {};
+        Object.keys(defaults).forEach((attr) => {
+            if (!attributes.hasOwnProperty(attr) || typeof(attributes[attr]) === 'undefined') 
             {
-                return typeof(defaults[attr]) === 'function' ?
+                newAttrs[attr] = typeof(defaults[attr]) === 'function' ?
                     defaults[attr](attributes) : defaults[attr];
             }
-            return attributes[attr];
         });
+        return Object.assign({}, attributes, newAttrs);
     }, component);
 };
 

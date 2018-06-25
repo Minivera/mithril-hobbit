@@ -4,20 +4,20 @@
 /*global jest*/
 
 import m from 'mithril';
-import { withAttrsRename } from '../withAttrsRename';
+import { withTransform } from '../withTransform';
 
-describe('The withAttrsRename enhancer', () => {
+describe('The withTransform enhancer', () => {
     const testComponent = {
         view: jest.fn(),
     };
     
     const testAttrs = {
-        test: 'foo',
+        test: 'test',
         bar: 'foo',
     };
     
     it('should do nothing if given an empty object', () => {
-        const enhanced = withAttrsRename({})(testComponent);
+        const enhanced = withTransform({})(testComponent);
         
         const rendered = m(enhanced, testAttrs);
         const child = rendered.tag.view(rendered);
@@ -25,33 +25,35 @@ describe('The withAttrsRename enhancer', () => {
         expect(child.attrs).toEqual(testAttrs);
     });
     
-    it('should rename the property to the new name if in an object', () => {
-        const enhanced = withAttrsRename({
-            test: 'foo',
-        })(testComponent);
+    it('should transform the property if a normal transformator', () => {
+        const transforms = {
+            test: jest.fn(() => 'foo'),
+        };
+        const enhanced = withTransform(transforms)(testComponent);
         
         const rendered = m(enhanced, testAttrs);
         const child = rendered.tag.view(rendered);
         
         expect(child.attrs).toEqual({
-            foo: 'foo',
+            test: 'foo',
             bar: 'foo',
         });
+        expect(transforms.test).toHaveBeenCalledWith('test', testAttrs['test'], testAttrs);
     });
     
-    it('should rename the property to the new name with a function', () => {
-        const renamer = jest.fn(() => 'foo');
-        const enhanced = withAttrsRename({
-            test: renamer,
-        })(testComponent);
+    it('should allow for transformators to be created', () => {
+        const transforms = jest.fn(() => ({
+            test: jest.fn(() => 'foo'),
+        }));
+        const enhanced = withTransform(transforms)(testComponent);
         
         const rendered = m(enhanced, testAttrs);
         const child = rendered.tag.view(rendered);
         
-        expect(renamer).toHaveBeenCalledWith(testAttrs);
         expect(child.attrs).toEqual({
-            foo: 'foo',
+            test: 'foo',
             bar: 'foo',
         });
+        expect(transforms).toHaveBeenCalledWith(testAttrs);
     });
 });
