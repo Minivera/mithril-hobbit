@@ -8,7 +8,6 @@ import './state';
 
 import './styles/app.scss';
 
-debugger;
 r.createRouter({
     hashbanged: true,
     hashbangPrefix: '#__!',

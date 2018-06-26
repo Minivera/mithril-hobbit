@@ -12,6 +12,7 @@ module.exports = {
         'stage-3',
     ],
     plugins: [
+        'transform-imports',
         //'external-helpers',
     ],
 };

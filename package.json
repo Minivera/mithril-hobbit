@@ -1,6 +1,6 @@
 {
   "name": "mithril-hobbit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Framework to bring modern tools to the Mithril ecosystem",
   "repository": "Minivera/mithril-hobbit",
   "license": "MIT",
@@ -29,6 +29,7 @@
     "mithril": "^1.1.6"
   },
   "dependencies": {
+    "babel-plugin-transform-imports": "^1.5.0",
     "mithril-hobbit-archivist": "^0.2.0",
     "mithril-hobbit-decorator": "^0.3.0",
     "mithril-hobbit-navigator": "^0.3.0"
