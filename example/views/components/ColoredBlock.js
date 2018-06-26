@@ -13,10 +13,10 @@ const SubColoredBlock = {
 
 const ColoredBlock = {
     onupdate: function(vnode) {
-        vnode.dom.classList.add('fadein');
+        /*vnode.dom.classList.add('fadein');
         setTimeout(function(){
             vnode.dom.classList.remove('fadein');
-        }, 500);
+        }, 500);*/
     },
     view: function(vnode) {
         return m(`div.${vnode.attrs.params.color}`, [

@@ -6,9 +6,12 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html -p $PORT",
-    "lint:js": "eslint src/ --cache --fix"
+    "start": "parcel example/index.html -p $PORT",
   },
+  "module": "./index.js",
+  "files": [
+    "index.js"
+  ],
   "keywords": [
     "mithril",
     "umbrella",
@@ -16,13 +19,16 @@
     "history"
   ],
   "author": "Minivera",
-  "dependencies": {
-    "lokijs": "^1.5.5",
+  "peerDependencies": {
     "mithril": "^1.1.6",
+  },
+  "dependencies": {
     "mithril-hobbit-archivist": "^0.1.0",
-    "mithril-hobbit-navigator": "^0.2.0"
+    "mithril-hobbit-navigator": "^0.1.0"
+    "mithril-hobbit-decorator": "^0.1.0"
   },
   "devDependencies": {
+    "lokijs": "^1.5.5",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-3": "^6.24.1",
     "node-sass": "^4.9.0",

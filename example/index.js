@@ -16,28 +16,15 @@ r.createRouter({
 });
 
 const index = {
-    time: null,
-    oncreate: function(vnode) {
-        this.time = vnode.attrs.state;
-    },
-    onstatechanged: function(newState) {
-        if (this.time !== newState)
-        {
-            this.time = newState;
-            //m.redraw(); //Redraws on state changed and different
-        }
-    },
     view: function(vnode) {
         return m('div.index', [
             m(Sidebar),
             m('div.page', [
                 m('h1', 'Example'),
                 m(Main),
-                m('span', `Time: ${vnode.attrs.state}`),
             ]),
         ]);
     },
 };
 
-console.log(r.getLocation());
-m.mount(document.body.querySelector('#root'), subscribe(index, 'time'));
+m.mount(document.body.querySelector('#root'), index);
