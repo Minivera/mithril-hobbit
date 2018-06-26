@@ -12,7 +12,7 @@ const config = {
             mithril: 'Mithril',
         },
     },
-    external: ['mithril'],
+    external: ['mithril', 'path-to-regexp'],
     plugins: [
         babel({
             exclude: 'node_modules/**',
