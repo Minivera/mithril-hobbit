@@ -4,9 +4,9 @@
 
 The hobbit framework is a set of battle-tested packages that can be used independently of one another to add a modern set of tools to mithril. Hobbit bridges the gap between the excellent mithril framework and the more common libraries like React or vue and enables developers who are more used to these libraries to keep the tools they know and love when trying our mithril.
 
-This package is an umbrella package, bringing all the sub-packages together to make installing the framework easier. If you prefer to install the packages independently, reffer to each sub-package's documentation for the install command.
+This package is an umbrella package, bringing all the sub-packages together to make installing the framework easier. If you prefer to install the packages independently, refer to each sub-package's documentation for the install command.
 
-Each package is small, self contained and does not includes undeeded dependencies to keep mithril as light as it can be.
+Each package is small, self contained and does not includes unneeded dependencies to keep mithril as light as it can be.
 
 | Package           | Version | Badges                                                                                                                                                                                                                                                                                                                                                                                                         | Description                                                           |
 |-------------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
