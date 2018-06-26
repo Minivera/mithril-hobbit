@@ -44,7 +44,6 @@
     "eslint": "^4.19.1",
     "lokijs": "^1.5.5",
     "mithril": "^1.1.6",
-    "mithril-hobbit": "^0.0.1",
     "node-sass": "^4.9.0",
     "parcel": "^1.8.1",
     "raf": "^3.4.0",
