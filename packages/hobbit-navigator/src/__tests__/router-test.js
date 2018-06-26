@@ -321,7 +321,10 @@ describe('The r.withLocation function', () => {
     });
     
     it('will cause an error if the history manager hasn\'t been created yet', () => {
-        expect(r.withLocation).toThrow();
+        const located = r.withLocation({
+            view() {},
+        });
+        expect(() => located.view()).toThrow();
     });
     
     it('will add empty parameters in the attributes if the pattern does not match', () => {

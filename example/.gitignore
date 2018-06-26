@@ -1,6 +1,5 @@
 # compiled output
-/es
-/umd
+/dist
 
 # dependencies
 /node_modules
@@ -11,9 +10,3 @@
 .eslintcache
 .cache
 npm-debug.log*
-
-# CommonJS root files
-/*.js
-
-# Rollup config
-!rollup.config.js

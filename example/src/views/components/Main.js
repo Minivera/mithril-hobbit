@@ -1,5 +1,5 @@
 import m from 'mithril';
-import r from 'mithril-hobbit-navigator';
+import r from 'mithril-hobbit/navigator';
 
 import ColoredBlock from './ColoredBlock';
 import { Clock } from './Clock';

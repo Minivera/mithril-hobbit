@@ -1,5 +1,5 @@
 import m from 'mithril';
-import r from 'mithril-hobbit-navigator';
+import r from 'mithril-hobbit/navigator';
 
 const Sidebar = r.withLocation('/block/:color/:subcolor', {
     onClickIndex: function() {

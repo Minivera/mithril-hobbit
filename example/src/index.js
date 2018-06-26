@@ -1,6 +1,5 @@
 import m from 'mithril';
-import r from 'mithril-hobbit-navigator';
-import { subscribe } from 'mithril-hobbit-archivist';
+import r from 'mithril-hobbit/navigator';
 
 import { Main } from './views/components/Main';
 import { Sidebar } from './views/components/Sidebar';
@@ -9,6 +8,7 @@ import './state';
 
 import './styles/app.scss';
 
+debugger;
 r.createRouter({
     hashbanged: true,
     hashbangPrefix: '#__!',

@@ -1,5 +1,5 @@
 import m from 'mithril';
-import r from 'mithril-hobbit-navigator';
+import r from 'mithril-hobbit/navigator';
 
 const SubColoredBlock = {
     view: function(vnode) {

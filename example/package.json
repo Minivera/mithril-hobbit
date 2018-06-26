@@ -1,0 +1,19 @@
+{
+  "name": "hobbit-example",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "parcel src/index.html -p $PORT"
+  },
+  "author": "Minivera",
+  "dependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "lokijs": "^1.5.5",
+    "mithril": "^1.1.6",
+    "mithril-hobbit": "^0.0.1",
+    "node-sass": "^4.9.0",
+    "parcel": "^1.8.1"
+  }
+}

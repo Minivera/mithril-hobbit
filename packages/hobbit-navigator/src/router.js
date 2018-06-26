@@ -216,7 +216,7 @@ r.getLocation = () => {
     if (!manager)
     {
         throw `The router was not initialized using 'createRouter'
-            before trying to render a route.`;
+            before trying to get the router's location.`;
     }
     return manager.getLocation();
 };
@@ -247,7 +247,7 @@ r.navigate = (route, params = {}, options = {}) => {
     if (!manager)
     {
         throw `The router was not initialized using 'createRouter'
-            before trying to render a route.`;
+            before trying to navigate to a route.`;
     }
     manager.navigate(route, Object.assign({}, {
         params,
@@ -278,13 +278,13 @@ r.navigate = (route, params = {}, options = {}) => {
  * fully renders.
  */
 r.withLocation = (pattern, component, options) => {
-    if (!manager)
-    {
-        throw `The router was not initialized using 'createRouter'
-            before trying to render a route.`;
-    }
     return {
         view: function(vnode) {
+            if (!manager)
+            {
+                throw `The router was not initialized using 'createRouter'
+                    before trying to to subscribe to location in a component.`;
+            }
             return m(component, {
                 ...vnode.attrs,
                 location: Object.assign({}, 

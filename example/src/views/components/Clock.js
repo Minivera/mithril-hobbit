@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { subscribe } from 'mithril-hobbit-archivist';
+import { subscribe } from 'mithril-hobbit/archivist';
 
 const clock = {
     time: null,

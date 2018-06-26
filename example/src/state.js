@@ -1,6 +1,6 @@
 import loki from 'lokijs';
 
-import { Store } from 'mithril-hobbit-archivist';
+import { Store } from 'mithril-hobbit/archivist';
 
 class connector {
     constructor(initial) {
