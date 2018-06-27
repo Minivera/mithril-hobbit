@@ -1,6 +1,6 @@
 {
   "name": "mithril-hobbit-decorator",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "Set of utility components to boost your base components capabilities.",
   "repository": "Minivera/mithril-hobbit",
   "license": "MIT",
